@@ -101,7 +101,16 @@ func addBooks(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateBooks(w http.ResponseWriter, r *http.Request) {
+	var book Book
+	json.NewDecoder(r.Body).Decode(&book)
+	result, err := db.Exec(
+		"UPDATE books set title=$1, author=$2, year=$3 where ID=$4 RETURNING ID",
+		&book.Title, &book.Author, &book.Year, &book.ID)
 
+	rowsUpdated, err := result.RowsAffected()
+	logFatal(err)
+
+	json.NewEncoder(w).Encode(rowsUpdated)
 }
 
 func removeBooks(w http.ResponseWriter, r *http.Request) {
