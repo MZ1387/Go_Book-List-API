@@ -1,6 +1,9 @@
 package main
 
 import (
+	"Go_Book-List-API/controllers"
+	"Go_Book-List-API/driver"
+	"Go_Book-List-API/models"
 	"database/sql"
 	"log"
 	"net/http"
@@ -15,12 +18,6 @@ var db *sql.DB
 
 func init() {
 	gotenv.Load()
-}
-
-func logFatal(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
 }
 
 func main() {
